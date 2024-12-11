@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPOT ME</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/game.css">
+    <link rel="shortcut icon" href="img/logoCar.png" type="image/x-icon">
+    <style>
+        @font-face{
+    font-family: Poppins-light;
+    src: url('/lightfont');
+}
+    </style>
+</head>
+<body>
+
+    <!--map load-->
+
+    <div id="map"></div>
+
+
+    <!--point bar-->
+
+    <div id="points" class="">
+        <div id="pointbar"><div id="pointindicator" ></div></div>
+            <p>Level <span id="leveldisplay"></span></p>
+    </div>
+
+
+    <!--my cars buton-->
+
+    <div id="myCars" class="">
+        <svg width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+            
+            <rect x="10" y="20" width="60" height="7" fill="white" rx="1.5" ry="1.5"/>
+            
+            <rect x="10" y="36.5" width="60" height="7" fill="white" rx="1.5" ry="1.5"/>
+            
+            <rect x="10" y="53" width="60" height="7" fill="white" rx="1.5" ry="1.5"/>
+        </svg>
+    </div>
+
+    <!--my cars openable window-->
+
+    <div id="myCarsBox" class="mycarsopenable display-none">
+        <div>
+            <h2>Cars i spotted</h2>
+            <div id="cardisplay" class="cardisplay">
+
+                
+            </div>
+            <img src="/img/logOut.png" alt="log out" class="logOutButton" id="logOutButton">
+            <svg class="closebutton" id="myCarsClose" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+                <g transform="rotate(45 20 20)">
+                    <rect x="18.25" y="0" width="3.5" height="40" fill="white" rx="1.75" ry="1.75"></rect>
+                    <rect x="0" y="18.25" width="40" height="3.5" fill="white" rx="1.75" ry="1.75"></rect>
+                </g>
+            </svg>
+        </div>
+    </div>
+
+
+    <!--add pins button-->
+
+    <div id="addPin" class="">
+        <svg width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+            <rect x="37.5" y="10" width="7" height="60" fill="white" rx="3.5" ry="3.5"/>
+            <rect x="10" y="37.5" width="60" height="7" fill="white" rx="3.5" ry="3.5"/>
+          </svg>
+    </div>
+
+
+    <!--add pins box -->
+
+    <div id="addPinBox" class="addPinOpenable display-none">
+        <div>
+            <h2>Add a car!</h2>
+            <form id="addPinForm">
+                <p>What is the car brand?</p>
+                <select id="carBrand" name="carBrand">
+                    <option disabled selected>Select a car brand</option>
+                    <option value="Ferrari">Ferrari</option>
+                    <option value="Lamborghini">Lamborghini</option>
+                    <option value="Porsche">Porsche</option>
+                    <option value="Mclaren">McLaren</option>
+                    <option value="Bugatti">Bugatti</option>
+                    <option value="Astonmartin">Aston Martin</option>
+                    <option value="Pagani">Pagani</option>
+                    <option value="Koenigsegg">Koenigsegg</option>
+                    <option value="Bentley">Bentley</option>
+                    <option value="Rollsroyce">Rolls-Royce</option>
+                    <option value="Maserati">Maserati</option>
+                    <option value="Lotus">Lotus</option>
+                    <option value="Rimac">Rimac</option>
+                    <option value="Zenvo">Zenvo</option>
+                    <option value="Sscnorthamerica">SSC North America</option>
+                    <option value="Apolloautomobil">Apollo Automobil</option>
+                    <option value="Wmotors">W Motors</option>
+                    <option value="Hennessey">Hennessey</option>
+                    <option value="Mercedesbenz">Mercedes-Benz</option>
+                    <option value="BMW">BMW</option>
+                    <option value="Chevrolet">Chevrolet</option>
+                    <option value="Dodge">Dodge</option>
+                    <option value="Ford">Ford</option>
+                    <option value="Nissan">Nissan</option>
+                    <option value="Toyota">Toyota</option>
+                    <option value="Subaru">Subaru</option>
+                  </select>
+                  <fieldset class="carModel"></fieldset>
+                  <fieldset class="aditInfo">
+
+                </fieldset>
+                  
+            </form>
+            <svg class="closebutton" id="addPinClose" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+                <g transform="rotate(45 20 20)">
+                    <rect x="18.25" y="0" width="3.5" height="40" fill="white" rx="1.75" ry="1.75"></rect>
+                    <rect x="0" y="18.25" width="40" height="3.5" fill="white" rx="1.75" ry="1.75"></rect>
+                </g>
+            </svg>
+        </div>
+    </div>
+
+
+    <script src="js/script.js" ></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCxy8O51zWy5mGLLmTLnchchwxoRG2yzM&map_ids=6cf806ca9c2eb7e&callback=initMap"></script>
+</body>
+</html>

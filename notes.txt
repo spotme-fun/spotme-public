@@ -1,0 +1,24 @@
+ bc #1f1f1f
+ orange #ff6300
+ blue #0019ff
+
+ Spot Me! 
+ Svět aut na dosah ruky.
+
+
+ border radius 20px
+
+
+web tokens for signing in 
+
+
+uglify js for encoding of javascript code
+
+
+flow:
+adding  car pins: clitent(make a post request to /addpin that gives json of that pin info)>server(sends data to a .carPins collection)
+
+app initalization:
+    get pins:clent(make a get request to /CarPins for all the pins form a carPins collection)>server(query carPins collection and send back data)>client(render data onto the map)
+
+    get other pins:clent(make a get request to /allStaticPins for all the pins form a otherPins collections)>server(query both static pins collections and combine the 2 arrays and send back data)>client(render data onto the map)

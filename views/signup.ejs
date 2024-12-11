@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vytvořit účet</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <style>
+        html{background-color: #1f1f1f;display: flex;justify-content: center;flex-direction: column;height: 100%;width: 100%;}
+        h1{color: #ff6300;text-align: center;font-size: 2.5rem;}
+        form{display: flex;justify-content: center;flex-direction: column;gap: 20px;padding: 10%;}
+        input{padding: 5px;background-color: #565656;border-radius: 4px;}
+        p{font-style: normal;color: lightgray;font-size: 1rem!important;}
+        input[type="checkbox"]{width: 26px;}
+        input::placeholder{color: rgb(136, 136, 136);}
+        input[type="submit"]{color:lightgray;width: fit-content;display: block;margin: 0 auto;border:solid;border-color: #0019ff;border-width: 1px;padding: 4px!important;}
+        a{color: lightgrey; font-size: 16px;display: block;text-align: center;}
+    </style>
+</head>
+<body>
+    <h1>Vytvořit účet</h1>
+    <form>
+        <input required type="text" placeholder="uživatelské jméno*" name="username" id="username">
+        <input required type="email" placeholder="E-mail*" name="email" id="email">
+        <input required type="text" placeholder="Jméno*" name="name" id="name">
+        <input required type="text" placeholder="Příjmení*" name="surname" id="surname">
+        <input type="number" placeholder="Telefonní číslo" name="phone" id="phone">
+        <input required type="password" placeholder="Heslo*" name="password" id="password">
+        <input required type="password" placeholder="Potvrdit heslo*" name="passwordcheck" id="passwordcheck">
+        <input type="submit" value="Vytvořit účet">
+        <a href="/">Už mám účet</a>
+    </form>
+    <p id="err" style="text-align:center;color:red;display:block"></p>
+
+<script>
+    let form = document.querySelector('form');
+    let userstatus;
+    let passwordstatus;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+    async function availability() {
+        try {
+            const response = await fetch('/usernameAvailable', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: form.username.value.toLowerCase(),
+                }),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to fetch from the server');
+            }
+            const data = await response.json();
+            if (data.exists) {
+                form.username.style.color = 'red';
+                userstatus = false;
+            } else {
+                form.username.style.color = '#06c639';
+                userstatus = true;
+            }
+        } catch (err) {
+            console.error('Error:', err);
+        }
+    }
+
+    form.username.addEventListener('keyup', (e) => {
+        availability();
+        console.log(userstatus); 
+    });
+
+    form.password.addEventListener('keyup', () => {
+        const password = form.password.value;
+
+        if (passwordRegex.test(password)) {
+            form.password.style.color = '#06c639'; 
+            passwordstatus = true;
+        } else {
+            form.password.style.color = 'red'; 
+            passwordstatus = false;
+        }
+    });
+
+    form.passwordcheck.addEventListener('keyup', () => {
+        const password = form.password.value;
+        const passwordcheck = form.passwordcheck.value;
+
+        if (password === passwordcheck) {
+            form.passwordcheck.style.color = '#06c639'; 
+        } else {
+            form.passwordcheck.style.color = 'red'; 
+        }
+    });
+
+    form.addEventListener('submit', (e) => {
+        let errshow = document.querySelector('#err');
+        e.preventDefault();
+
+        if (form.password.value === form.passwordcheck.value) {
+            if (userstatus && passwordstatus) {
+                fetch('/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userName: form.username.value.toLowerCase(),
+                        password: form.password.value,
+                        email: form.email.value,
+                        phoneNumber: form.phone.value,
+                        name: {
+                            firstname: form.name.value,
+                            surname: form.surname.value
+                        },
+                    })
+                })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data)
+                    document.querySelector('#err').innerHTML = 'Hotovo! přhlašte se <a href="/">login</a>';
+                    document.querySelector('#err').style.color='#06c639'
+                })
+                .catch(err => {
+                    console.error(err);
+                    document.querySelector('#err').innerHTML = 'Chyba při odesílání formuláře';
+                });
+                errshow.innerHTML = ''; 
+            } else {
+                if (!userstatus) {
+                    errshow.innerHTML = 'Uživatelské jméno již existuje';
+                } else if (!passwordstatus) {
+                    errshow.innerHTML = 'Heslo musí mít alespoň 8 znaků, číslo a velké písmeno';
+                }
+            }
+        } else {
+            errshow.innerHTML = 'Hesla se neshodují';
+        }
+    });
+</script>
+</body>
+</html>
